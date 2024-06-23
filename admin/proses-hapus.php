@@ -1,0 +1,26 @@
+<?php
+
+session_start();
+include '../db.php';
+if ($_SESSION['status_login'] != true || $_SESSION['type'] != 'admin') {
+	echo '<script>window.location="login.php"</script>';
+}
+if (isset($_GET['idk'])) {
+	$delete = mysqli_query($conn, "DELETE FROM tb_category WHERE category_id = '" . $_GET['idk'] . "' ");
+	echo '<script>window.location="data-kategori.php"</script>';
+}
+
+if (isset($_GET['idp'])) {
+	$produk = mysqli_query($conn, "SELECT product_image FROM tb_product WHERE product_id = '" . $_GET['idp'] . "' ");
+	$p = mysqli_fetch_object($produk);
+
+	unlink('./produk/' . $p->product_image);
+
+	$delete = mysqli_query($conn, "DELETE FROM tb_product WHERE product_id = '" . $_GET['idp'] . "' ");
+	echo '<script>window.location="data-produk.php"</script>';
+}
+
+if (isset($_GET['idv'])) {
+	$delete = mysqli_query($conn, "DELETE FROM voucher WHERE id = '" . $_GET['idv'] . "' ");
+	echo '<script>window.location="data-voucher.php"</script>';
+}
